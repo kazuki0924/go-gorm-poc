@@ -2,30 +2,56 @@ version: "3.8"
 
 services:
   postgresql:
+    container_name: postgresql
     image: postgres:14-bullseye
     ports:
       - "5432:5432"
     volumes:
-      - ./data/postgresql:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      - ./db/postgresql:/var/lib/postgresql/data
+      - ./db/postgresql/init:/docker-entrypoint-initdb.d
+    env_file:
+      - .env
     restart: always
     healthcheck:
       test: ["CMD", "pg_isready", "-h", "db", "-U", "postgres"]
       interval: 10s
       timeout: 5s
       retries: 3
+    networks:
+      - local_dev
   pgadmin:
+    container_name: pgadmin
     image: dpage/pgadmin4
     restart: always
     ports:
       - 81:80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: example@example.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
+    env_file:
+      - .env
     volumes:
-      - ./data/pgadmin:/var/lib/pgadmin
+      - ./db/pgadmin:/var/lib/pgadmin
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
+    networks:
+      - local_dev
+  dbmate:
+    container_name: dbmate
+    build: ./runner
+    volumes:
+      - .:/
+    command:
+      - /bin/bash
+      - -ceu
+      - |
+        make dbmate/up
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - local_dev
+
+networks:
+  local_dev:
+    driver: bridge
+    ipam:
+      driver: default
