@@ -1,3 +1,0 @@
-- create dummy data
-- setup sqlfluff
--
