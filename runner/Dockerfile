@@ -7,20 +7,20 @@ RUN set -ex \
   && apt-get update \
   && apt-get -y upgrade \
   && apt-get install -y \
-    git \
-    curl \
-    wget \
-    jq \
     bash \
-    vim \
-    zip \
-    ripgrep \
-    make \
+    cargo \
+    curl \
     fd-find \
     fzf \
+    git \
+    jq \
+    make \
     postgresql \
     postgresql-contrib \
-    cargo \
+    ripgrep \
+    vim \
+    wget \
+    zip \
   && rm -rf /var/cache/apt
 
 # fd
