@@ -7,16 +7,16 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db/postgresql:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
       - ./db/postgresql/init:/docker-entrypoint-initdb.d
     env_file:
       - .env
     restart: always
     healthcheck:
-      test: ["CMD", "pg_isready", "-h", "db", "-U", "postgres"]
+      test: ["CMD", "pg_isready", "-h", "postgresql", "-U", "postgres"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 10
     networks:
       - local_dev
   pgadmin:
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./db/pgadmin:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     depends_on:
       postgresql:
         condition: service_healthy
@@ -37,12 +37,14 @@ services:
   dbmate:
     container_name: dbmate
     build: ./runner
+    restart: always
     volumes:
-      - .:/
+      - .:/app
     command:
       - /bin/bash
       - -ceu
       - |
+        cd /app
         make dbmate/up
     depends_on:
       postgresql:
@@ -50,6 +52,9 @@ services:
     networks:
       - local_dev
 
+volumes:
+  postgresql:
+  pgadmin:
 networks:
   local_dev:
     driver: bridge
