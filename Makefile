@@ -10,11 +10,7 @@ all: setup
 .PHONY: all
 
 setup:
-	@ ./scripts/setup_and_install_with_pip.sh
-	# requires Homebrew to be installed:
-	brew bundle --verbose --no-lock --file=Brewfile
-	# requires MacPorts to be installed:
-	sudo port install pgmodeler
+	@ ./scripts/setup.sh
 
 .PHONY: setup
 

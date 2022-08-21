@@ -28,7 +28,7 @@ echo pyenv versions
 echo "Installed python versions:"
 pyenv versions
 
-# recommended setups for rcfiles {{
+# recommended setups for rcfiles(~/.zshrc, etc) {{
 export PATH="${HOME}/.local/bin:${PATH//:\/bin//}:/bin"
 export PATH="${PYENV_ROOT}/shims:${PATH}"
 export PYENV_ROOT="${HOME}/.pyenv}"
