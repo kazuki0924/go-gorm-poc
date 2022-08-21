@@ -14,6 +14,11 @@ setup:
 
 .PHONY: setup
 
+init/.gitignore:
+	 gibo dump Go Node Terraform macOS JetBrains VisualStudioCode >> .gitignore
+
+.PHONY: init/.gitignore
+
 dbmate/up:
 	dbmate up
 
@@ -28,3 +33,8 @@ local:
 	docker compose up -d --build
 
 .PHONY: local
+
+go/test:
+	@ ./scripts/go_test.sh
+
+.PHONY: go/test

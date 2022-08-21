@@ -38,6 +38,8 @@ services:
     container_name: dbmate
     build: ./runner
     restart: always
+    env_file:
+      - .env
     volumes:
       - .:/app
     command:
