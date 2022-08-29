@@ -12,6 +12,7 @@ brew bundle --verbose --no-lock --file=Brewfile
 set -e
 read -rp "Is MacPorts installed? [y/N]"$'\n> ' UserInput && [[ ${UserInput} != "y" ]] && exit 1
 echo "Installing packages with MacPorts..."
+sudo port selfupdate
 sudo port install pgmodeler
 echo "Installing packages with pip..."
 ./scripts/setup_and_install_with_pip.sh

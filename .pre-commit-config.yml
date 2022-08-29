@@ -1,3 +1,4 @@
+fail_fast: true
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
@@ -8,3 +9,20 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-json
+      - id: check-yaml
+      - id: check-toml
+      - id: check-xml
+      - id: check-merge-conflict
+  - repo: https://github.com/tekwizely/pre-commit-golang
+    rev: v1.0.0-beta.5
+    hooks:
+      - id: golangci-lint-mod
+        args: ["--allow-parallel-runners"]
+      - id: go-build-repo-mod
+      - id: go-mod-tidy
+      - id: go-mod-tidy-repo
+      - id: go-vet-mod
+      - id: go-fmt
