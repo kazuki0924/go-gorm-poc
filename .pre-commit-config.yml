@@ -16,6 +16,30 @@ repos:
       - id: check-toml
       - id: check-xml
       - id: check-merge-conflict
+  - repo: local
+    hooks:
+      - id: shellcheck
+        name: Run static analysis (shellcheck)
+        entry: shellcheck
+        language: system
+        files: \.(sh|bash)$
+        types: [file]
+        args: [ '-x', '-e', 'SC2034' ]
+      - id: shfmt
+        name: Run lint check (shfmt -d)
+        entry: shfmt
+        language: system
+        files: \.(sh|bash)$
+        types: [file]
+        args: [ '-i', '0', '-ci', '-sr', '-d' ]
+      - id: shfmtw
+        name: Auto-fix lint errors (shfmt -w)
+        entry: shfmt
+        language: system
+        stages: [manual]
+        files: \.(sh|bash)$
+        types: [file]
+        args: [ '-i', '0', '-ci', '-sr', '-kp', '-w' ]
   - repo: https://github.com/tekwizely/pre-commit-golang
     rev: v1.0.0-beta.5
     hooks:
